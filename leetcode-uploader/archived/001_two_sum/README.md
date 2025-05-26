@@ -1,26 +1,18 @@
-# Two_Sum
+# Two Sum
 
-**Problem ID:** 001
+**Difficulty:** Easy  
+**Link:** https://leetcode.com/problems/two_sum
 
-**Link:** [https://leetcode.com/problems/two_sum](https://leetcode.com/problems/two_sum)
+## Description
 
-## 🧠 Reflection
+TODO: Add full problem description.
 
-# Reflection
+## My Solution
 
-Write your 300-500 word reflection here on:
-- Your approach and reasoning
-- Bugs and issues encountered
-- Fixes applied
-- Lessons learned
+TODO: Brief explanation of your code.
 
+## Best Solution (LLM)
 
----
-## 💻 My Solution
+```python
 
-_My solution not found._
-
----
-## 🚀 Best Solution (LLM / GPT)
-
-_Best solution not found._
+```
