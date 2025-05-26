@@ -66,8 +66,19 @@ def archive_submission(file_name):
 
     # Open reflection
     os.system(f"start code {os.path.join(problem_dir, 'reflection.md')}")
+    # Generate README
+    os.system("python scripts/generate_readme.py")
+    # Generate LLM solutio
+    os.system("python scripts/fetch_best_solution.py")
+    # Push to GitHub
+    os.system(f"powershell -File scripts/upload_to_github.ps1 {problem_id}_{slug}")
+    # Update main README index
+    os.system("python scripts/update_main_readme.py")
+
 
     print(f"Archived and opened reflection for: {problem_id}_{slug}")
+    # Generate LLM solutio
+    os.system("python scripts/fetch_best_solution.py")
 
 
 if __name__ == '__main__':
