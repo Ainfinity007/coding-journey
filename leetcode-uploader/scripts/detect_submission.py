@@ -1,8 +1,6 @@
-# detect_submission.py
 import os
 import shutil
 import json
-import time
 from datetime import datetime
 
 SUBMISSION_DIR = r"C:\Users\Infinity\leetcode-uploader\submissions"
@@ -39,7 +37,8 @@ def archive_submission(file_name):
         print("Invalid filename format.")
         return
     problem_id, title, slug, extension = meta
-    problem_dir = os.path.join(ARCHIVE_DIR, f"{problem_id}_{slug}")
+    problem_dir_name = f"{problem_id}_{slug}"
+    problem_dir = os.path.join(ARCHIVE_DIR, problem_dir_name)
     os.makedirs(problem_dir, exist_ok=True)
 
     # Move file to archive dir
@@ -57,28 +56,23 @@ def archive_submission(file_name):
         json.dump(perf_data, f, indent=2)
 
     # Create placeholder README
-    with open(os.path.join(problem_dir, "README.md"), "w") as f:
+    with open(os.path.join(problem_dir, "README.md"), "w", encoding="utf-8") as f:
         f.write(f"# {title}\n\nProblem ID: {problem_id}\n\nLink: <URL_TO_PROBLEM>\n")
 
     # Create empty reflection
-    with open(os.path.join(problem_dir, "reflection.md"), "w") as f:
+    with open(os.path.join(problem_dir, "reflection.md"), "w", encoding="utf-8") as f:
         f.write("## Reflection\n\nTODO: Write your thought process here.")
 
-    # Open reflection
+    # Open reflection in VS Code
     os.system(f"start code {os.path.join(problem_dir, 'reflection.md')}")
-    # Generate README
-    os.system("python scripts/generate_readme.py")
-    # Generate LLM solutio
-    os.system("python scripts/fetch_best_solution.py")
-    # Push to GitHub
-    os.system(f"powershell -File scripts/upload_to_github.ps1 {problem_id}_{slug}")
-    # Update main README index
+
+    # Run scripts with correct arguments
+    os.system(f"python scripts/generate_readme.py {problem_dir_name}")
+    os.system(f"python scripts/fetch_best_solution.py {problem_dir}")
+    os.system(f"powershell -File scripts/upload_to_github.ps1 {problem_dir_name}")
     os.system("python scripts/update_main_readme.py")
 
-
-    print(f"Archived and opened reflection for: {problem_id}_{slug}")
-    # Generate LLM solutio
-    os.system("python scripts/fetch_best_solution.py")
+    print(f"Archived and opened reflection for: {problem_dir_name}")
 
 
 if __name__ == '__main__':
