@@ -83,3 +83,32 @@ Elvis and Lee traveled 450 miles, Elvis is the top traveler as his name is alpha
 Bob, Jonathan, Alex, and Alice have only one ride and we just order them by the total distances of the ride.
 Donald did not have any rides, the distance traveled by him is 0.
 </pre>
+
+===================================================================================================================================================================
+
+
+Beats 95%
+okay so approach wise we started simple just wrote a query where one is equals to one having a left join on ID equals user ID because even if you don't have anything in the rights table if the ID is created in the users table you need to have a value against it even if it's a null value then you need to have a distance as zero second thing to concentrate was to concentrate on was the order by you can have multiple parameters or column names in the order by and they work in the order you mentioned them which is again an irony so that's one thing second thing is alias names also work in the order by statement in mysql so if you have defined an alias in your select clause you can use it in the order by clause as well third thing is if you have null values in table or they are getting created as a result of any join then if you want or need you can change those null values to anything you want using the F null function so basically you have an F null function you describe on what column you want to use it comma what values do you need to replace it if you find a null function you can also use the coolies function again same thing first define what column you want to use it on and second the value that you want to replace it with lastly since here the distance pertaining to the same ID was needed to be added we first used group by user ID and not by the distance and then used some function to get the list of individual total distances against each name one thing to note here is we used group by already so there's no need for using distinct in the select statement
+===============================================================================================
+select  a.name,sum(ifnull(b.distance,0)) as travelled_distance from users a  left join rides b on a.id=b.user_id where 1=1 group by b.user_id order by travelled_distance desc,a.name ;
+===============================================================================================
+
+other best solution,
+===============================================================================================
+select name,coalesce(sum(distance),0) as travelled_distance
+from Users u left join Rides r
+on u.id = r.user_id
+group by r.user_id
+order by travelled_distance desc,name asc;
+===============================================================================================
+WITH joined_table AS (
+SELECT users.id, name, COALESCE(distance, 0) AS distance
+FROM users
+LEFT JOIN rides
+ON users.id = rides.user_id
+)
+SELECT name, SUM(distance) as travelled_distance
+FROM joined_Table
+GROUP BY id, name
+ORDER BY travelled_distance DESC, name
+===============================================================================================
