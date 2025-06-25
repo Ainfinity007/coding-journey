@@ -4,16 +4,16 @@ class Solution {
 public:
     int reverse(int x) {
         int reversed_num = 0;
-        
+        cout<<INT_MIN<<" "<<INT_MAX;
         while (x != 0) {
             int rem = x % 10;
             x /= 10;
             
             
-            if (reversed_num > INT_MAX / 10 || (reversed_num == INT_MAX / 10 && rem > 7)) {
+            if (reversed_num > INT_MAX / 10 ) {
                 return 0;
             }
-            if (reversed_num < INT_MIN / 10 || (reversed_num == INT_MIN / 10 && rem < -8)) {
+            if (reversed_num < INT_MIN / 10 ) {
                 return 0;
             }
             
